@@ -1,0 +1,21 @@
+.board-row {
+    /* border: 1px solid white; */
+    width: 300px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.board-cell {
+    border: 1px solid white;
+    flex: 1;
+    height: 100px;
+    cursor: pointer;
+    font-size: 60px;
+    line-height: 88px;
+}
+
+.board-cell:hover {
+    background-color: rgba(255, 255, 255, .2);
+}
