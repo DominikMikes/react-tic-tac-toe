@@ -6,12 +6,17 @@ const rows = 3;
 export const PlayerContext = createContext();
 
 function fillCells(state, action) {
-    state[action.value] = action.type;
+    if (action.type === 'reset') {
+        state = [];
+    } else {
+        state[action.value] = action.type;
+    }
+    
     return state;
 }
 
 function checkWinner(cells) {
-    if (cells.length >= 5) {
+    if (cells.length >= 5 ) {
         const combs = [
             [0, 1, 2],
             [3, 4, 5],
@@ -29,11 +34,13 @@ function checkWinner(cells) {
                     && 
                 cells[comb[1]] === cells[comb[2]] 
                     && 
-                cells[comb[0]] !== ''
+                cells[comb[0]] !== '' && cells[comb[0]]
             ) {
-                return cells[comb[0]];
+                return `Winner is ${cells[comb[0]]}`;
             }
         }
+    } else if (cells.length >= 9) {
+        return 'Draw';
     }
     return false;
 }
@@ -64,6 +71,7 @@ export default function Board() {
     const resetGame = useCallback(() => {
         setCells([]);
         setWinner(false);
+        setCells({type: 'reset'});
     }, [setWinner]);
 
     return(
@@ -72,7 +80,7 @@ export default function Board() {
                 {renderRows()}
                 {winner &&
                 <div>
-                    Winner is {winner}. <button onClick={resetGame}>Reset</button>
+                    {winner} <button onClick={resetGame}>Reset</button>
                 </div>
                 }
             </PlayerContext.Provider>
